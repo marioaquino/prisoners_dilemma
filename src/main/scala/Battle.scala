@@ -33,7 +33,6 @@ class Battle(numberOfRounds: Int) {
     import scalaz._
     import scalaz.std.AllInstances._
     import scalaz.syntax.foldable._
-    import scalaz.std.stream._
 
      val res = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).concatenate
      val (aScore, bScore) = res
