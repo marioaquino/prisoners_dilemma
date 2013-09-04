@@ -4,7 +4,7 @@ package pd
 import Tournament._
 
 
-case class BattleResult(a: (Player, Score), bScore: (Player, Score))
+case class BattleResult(a: (Player, Score), b: (Player, Score))
 
 trait Rules {
    def score(plays: (Play, Play)): (Score, Score) = plays match {
