@@ -10,7 +10,9 @@ class Player(name: PlayerId) {
 
    var history: Map[PlayerId, History] = Map()
 
-   def play(opponent:PlayerId): Play = decide(history.getOrElse(opponent, Seq()))
+   def play(opponent: PlayerId): Play = decide(history.getOrElse(opponent, Seq()))
+
+   def addToHistory(opponent: PlayerId, round: Round) = history = history + (opponent -> Seq(round))
 }
 
 
