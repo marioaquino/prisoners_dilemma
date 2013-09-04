@@ -1,7 +1,7 @@
 // When two players, are matched against each other, they play a series of rounds.
 import Tournament._
 
-case class BattleResult(aScore: Score, bScore: Score)
+case class BattleResult(a: (Player, Score), bScore: (Player, Score))
 
 trait Rules {
    def score(plays: (Play, Play)): (Score, Score) = plays match {
@@ -29,7 +29,7 @@ class Battle(numberOfRounds: Int) {
 
    def pit(a: Player, b: Player): BattleResult = {
       val resultOfOne = score(singleRound(a,b))
-      BattleResult(resultOfOne._1, resultOfOne._2)
+      BattleResult((a, resultOfOne._1), (b, resultOfOne._2))
    }
 
    private def singleRound(a: Player, b:Player): (Play, Play) =
