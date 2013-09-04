@@ -110,9 +110,11 @@ class Holmgang extends FunSpec with ShouldMatchers {
       val fightResults = everybodyFight(Seq(sucker, cheat, titForTat, titForTwoTats, cooperateDefect, cooperateCooperateDefect,
        defectDefectCooperate, spiteful, mistrust, pavlov))
 
-      fightResults.foreach {case(player, score) => println("-> " + player + ": " + score)}
+      fightResults.foreach {case(player, score) => info("-> " + player + ": " + score)}
 
       val winners = declareAWinner(fightResults)
+
+      winners.foreach { w => info(s"And the winner is !!! $w") }
 
       winners.head should equal(titForTwoTats)
     }
