@@ -2,6 +2,9 @@ package pd
 
 // When two players, are matched against each other, they play a series of rounds.
 import Tournament._
+import scalaz._
+import scalaz.std.AllInstances._
+import scalaz.syntax.foldable._
 
 case class BattleResult(a: (Player, Score), b: (Player, Score))
 
@@ -30,10 +33,6 @@ class Battle(numberOfRounds: Int) {
    self: Rules =>
 
    def pit(a: Player, b: Player): BattleResult = {
-    import scalaz._
-    import scalaz.std.AllInstances._
-    import scalaz.syntax.foldable._
-
      val res = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).concatenate
      val (aScore, bScore) = res
       BattleResult((a, aScore), (b, bScore))
@@ -55,10 +54,6 @@ class Battle(numberOfRounds: Int) {
 object GiantFightOfDoom {
 
   def everybodyFight(players: Seq[Player])(implicit battleConstructor: () => Battle): Map[Player,Score] = {
-    import scalaz.Monoid
-    import scalaz.std.AllInstances._
-
-    val m = implicitly[Monoid[Map[Player,Score]]]
 
     val battleResults =
       for { p1 <- players
@@ -68,7 +63,7 @@ object GiantFightOfDoom {
        battleConstructor().pit(p1,p2)
     }
 
-    battleResults.map(t => Map(t.a, t.b)).reduce((x,y) => m.append(x,y))
+    battleResults.map(t => Map(t.a, t.b)).toList.concatenate
   }
 
   def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
