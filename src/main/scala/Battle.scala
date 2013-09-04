@@ -67,7 +67,8 @@ object GiantFightOfDoom {
   }
 
   def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
-    Seq(scores.toSeq.maxBy{ case (_, score) => score }._1)
+    val maxScore = scores.map(_._2).max
+    scores.toSeq.collect{ case(p, score) if score == maxScore => p }
   }
 
 

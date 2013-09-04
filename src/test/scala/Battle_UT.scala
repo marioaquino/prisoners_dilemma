@@ -73,6 +73,15 @@ class BigFightTestOfDoom extends FunSpec with ShouldMatchers {
 
      declareAWinner(Map(player1 -> -900, player2 -> 100)) should be (Seq(player2))
     }
+    it("recognizes a tie") {
+     val player1 = new Player("Bobby Jo") with AlwaysCooperate
+     val player2 = new Player("Joey Bob") with AlwaysCooperate
+
+     val result = declareAWinner(Map(player1 -> 900, player2 -> 900))
+
+     assert(result.contains(player1))
+     assert(result.contains(player2))
+    }
 
 
   }
