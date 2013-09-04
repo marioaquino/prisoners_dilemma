@@ -107,10 +107,14 @@ class Holmgang extends FunSpec with ShouldMatchers {
       val mistrust = new Player("Initially defects. Defects if it has been defected against in the last move. Otherwise cooperates.") with Mistrust
       val pavlov = new Player("Initially cooperates. Cooperates if the last move was the same as the opponents. Otherwise defects.") with Pavlov
 
-      val result = declareAWinner(everybodyFight(Seq(sucker, cheat, titForTat, titForTwoTats, cooperateDefect, cooperateCooperateDefect,
-       defectDefectCooperate, spiteful, mistrust, pavlov)))
+      val fightResults = everybodyFight(Seq(sucker, cheat, titForTat, titForTwoTats, cooperateDefect, cooperateCooperateDefect,
+       defectDefectCooperate, spiteful, mistrust, pavlov))
 
-      result.head should equal(titForTwoTats)
+      fightResults.foreach {case(player, score) => println("-> " + player + ": " + score)}
+
+      val winners = declareAWinner(fightResults)
+
+      winners.head should equal(titForTwoTats)
     }
   }
 }
