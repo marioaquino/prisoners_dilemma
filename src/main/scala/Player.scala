@@ -1,10 +1,19 @@
 object Tournament {
   type History = Seq[Round]
   type PlayerId = String
+  type Score = Int
+}
+import Tournament._
+
+abstract trait Strategy {
+   def decide(h: History): Play
 }
 
-import Tournament._
-class Player(name: PlayerId) {
+trait AlwaysCooperate extends Strategy {
+   def decide(h:History) = Cooperate
+}
+
+class Player(val name: PlayerId) {
 
    self: Strategy =>
 
@@ -12,7 +21,7 @@ class Player(name: PlayerId) {
 
    def play(opponent: PlayerId): Play = decide(history.getOrElse(opponent, Seq()))
 
-   def addToHistory(opponent: PlayerId, round: Round) = history = history + (opponent -> Seq(round))
+   def addToHistory(opponent: PlayerId, round: Round) = history = history + ((opponent, round +: history.getOrElse(opponent, Seq())))
 }
 
 
