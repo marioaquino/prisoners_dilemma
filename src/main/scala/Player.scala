@@ -1,3 +1,5 @@
+package pd
+
 object Tournament {
   type History = Seq[Round]
   type PlayerId = String

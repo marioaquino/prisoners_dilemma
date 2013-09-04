@@ -1,3 +1,5 @@
+package pd
+
 // When two players, are matched against each other, they play a series of rounds.
 import Tournament._
 
@@ -31,6 +33,7 @@ class Battle(numberOfRounds: Int) {
       val resultOfOne = score(singleRound(a,b))
       BattleResult((a, resultOfOne._1), (b, resultOfOne._2))
    }
+
 
    private def singleRound(a: Player, b:Player): (Play, Play) =
      (a.play(b.name), b.play(a.name))
