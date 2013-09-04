@@ -30,7 +30,7 @@ trait OneSetOfRules extends Rules {
 class Battle(numberOfRounds: Int) {
    self: Rules =>
 
-     import scalaz._
+    import scalaz._
     import scalaz.std.AllInstances._
 
    def pit(a: Player, b: Player): BattleResult = {
@@ -62,14 +62,13 @@ object GiantFightOfDoom {
 
     val battleResults =
       for { p1 <- players
-           p2 <- players
-           if p1 != p2 }
+            p2 <- players
+            if p1 != p2 }
     yield {
        battleConstructor().pit(p1,p2)
     }
 
     battleResults.map(t => Map(t.a, t.b)).reduce((x,y) => m.append(x,y))
-
   }
 
   def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
