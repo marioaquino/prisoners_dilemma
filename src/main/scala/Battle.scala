@@ -30,14 +30,45 @@ trait OneSetOfRules extends Rules {
 class Battle(numberOfRounds: Int) {
    self: Rules =>
 
+     import scalaz._
+    import scalaz.std.AllInstances._
+
    def pit(a: Player, b: Player): BattleResult = {
-      val resultOfOne = score(singleRound(a,b))
-      BattleResult((a, resultOfOne._1), (b, resultOfOne._2))
+     val m = implicitly[Monoid[(Score,Score)]]
+     val (aScore, bScore) = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).reduce((x, y) =>m.append(x,y))
+      BattleResult((a, aScore), (b, bScore))
    }
 
 
    private def singleRound(a: Player, b:Player): (Play, Play) =
      (a.play(b.name), b.play(a.name))
+
+
+}
+
+object GiantFightOfDoom {
+
+  def everybodyFight(players: Seq[Player])(implicit battleConstructor: () => Battle): Map[Player,Score] = {
+    import scalaz.Monoid
+    import scalaz.std.AllInstances._
+
+    val m = implicitly[Monoid[Map[Player,Score]]]
+
+    val battleResults =
+      for { p1 <- players
+           p2 <- players
+           if p1 != p2 }
+    yield {
+       battleConstructor().pit(p1,p2)
+    }
+
+    battleResults.map(t => Map(t.a, t.b)).reduce((x,y) => m.append(x,y))
+
+  }
+
+  def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
+    Seq(scores.toSeq.maxBy{ case (_, score) => score }._1)
+  }
 
 
 }

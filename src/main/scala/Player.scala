@@ -24,6 +24,13 @@ class Player(val name: PlayerId) {
    def play(opponent: PlayerId): Play = decide(history.getOrElse(opponent, Seq()))
 
    def addToHistory(opponent: PlayerId, round: Round) = history = history + ((opponent, round +: history.getOrElse(opponent, Seq())))
+
+   override def equals(o: Any) = o match {
+      case p: Player => p.name == name
+      case _ => false
+   }
+
+   override def toString() = name
 }
 
 
