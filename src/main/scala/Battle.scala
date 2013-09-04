@@ -3,6 +3,7 @@ package pd
 // When two players, are matched against each other, they play a series of rounds.
 import Tournament._
 
+
 case class BattleResult(a: (Player, Score), bScore: (Player, Score))
 
 trait Rules {
