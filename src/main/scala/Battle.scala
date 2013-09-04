@@ -3,7 +3,6 @@ package pd
 // When two players, are matched against each other, they play a series of rounds.
 import Tournament._
 
-
 case class BattleResult(a: (Player, Score), b: (Player, Score))
 
 trait Rules {
@@ -30,12 +29,14 @@ trait OneSetOfRules extends Rules {
 class Battle(numberOfRounds: Int) {
    self: Rules =>
 
+   def pit(a: Player, b: Player): BattleResult = {
     import scalaz._
     import scalaz.std.AllInstances._
+    import scalaz.syntax.foldable._
+    import scalaz.std.stream._
 
-   def pit(a: Player, b: Player): BattleResult = {
-     val m = implicitly[Monoid[(Score,Score)]]
-     val (aScore, bScore) = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).reduce((x, y) =>m.append(x,y))
+     val res = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).concatenate
+     val (aScore, bScore) = res
       BattleResult((a, aScore), (b, bScore))
    }
 
@@ -43,7 +44,7 @@ class Battle(numberOfRounds: Int) {
    private def singleRound(a: Player, b:Player): (Play, Play) = {
      val bMove = b.play(a.name)
      val aMove = a.play(b.name)
-     // ew, a side effect
+     // ew, a side effect. Will eliminate
      a.addToHistory(b.name, Round(aMove,bMove))
      b.addToHistory(a.name, Round(bMove,aMove))
      (aMove, bMove)
