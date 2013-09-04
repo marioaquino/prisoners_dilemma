@@ -67,8 +67,8 @@ object GiantFightOfDoom {
   }
 
   def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
-    val maxScore = scores.map(_._2).max
-    scores.toSeq.collect{ case(p, score) if score == maxScore => p }
+    val MaxScore = scores.map(_._2).max
+    scores.toSeq.collect{ case(p, MaxScore) => p }  // dirty little piece of pattern-matching IMO
   }
 
 
