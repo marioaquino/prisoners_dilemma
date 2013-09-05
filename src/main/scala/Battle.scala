@@ -65,7 +65,8 @@ object GiantFightOfDoom {
        battleConstructor().pit(p1,p2)
     }
 
-    battleResults.map(t => Map(t.a, t.b)).toList.concatenate
+    val playerToScoreses:List[Map[Player,Score]] = battleResults.map(t => Map(t.a, t.b)).toList
+    playerToScoreses.concatenate
   }
 
   def declareAWinner(scores: Map[Player, Score]): Seq[Player] = {
