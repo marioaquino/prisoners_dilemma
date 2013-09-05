@@ -46,7 +46,7 @@ class Battle(numberOfRounds: Int) {
      val aMove = a.play(b.name)
      // ew, a side effect.
      a.addToHistory(Round(aMove,bMove))
-     b.addToHistory(Round(bMove,aMove))
+     b.addToHistory( Round(bMove,aMove))
      (aMove, bMove)
    }
 
