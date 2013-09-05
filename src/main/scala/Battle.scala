@@ -42,8 +42,8 @@ class Battle(numberOfRounds: Int) {
 
 
    private def singleRound(a: Player, b:Player): (Play, Play) = {
-     val bMove = b.play(a.name)
-     val aMove = a.play(b.name)
+     val bMove = b.play
+     val aMove = a.play
      // ew, a side effect.
      a.addToHistory(Round(aMove,bMove))
      b.addToHistory( Round(bMove,aMove))
