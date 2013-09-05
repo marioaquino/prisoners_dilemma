@@ -1,4 +1,5 @@
 apply plugin: 'scala'
+apply plugin: 'application'
 
 repositories {
   mavenCentral()
@@ -9,6 +10,8 @@ dependencies {
   compile 'org.scala-lang:scala-library:2.10.2'
   compile 'org.scalaz:scalaz-core_2.10:7.1.0-M2'
 }
+
+mainClassName = 'pd.TryVariousRules'
 
 compileScala {
    // this should make repeated compilation a bit faster

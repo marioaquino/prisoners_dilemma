@@ -20,27 +20,29 @@ object TryVariousRules {
       val wiggleRoom = highestScore - lowestScore
 
       val results =
-      for {loneCooperator <- Range(lowestScore, highestScore)
-           bothDefect <- Range(loneCooperator, highestScore)
-           bothCooperate <- Range(bothDefect, highestScore)
-           loneDefector <- Range(bothCooperate, highestScore) } // todo: always use highestScore here
+      for {loneC <- Range(lowestScore, highestScore)
+           bothD <- Range(loneC, highestScore)
+           bothC <- Range(bothD, highestScore)
+           loneD <- Range(bothC, highestScore) } // todo: always use highestScore here
       yield {
         val battle = new Battle(n) with Rules {
-          val bothCooperate = bothCooperate
-          val bothDefect = bothDefect
-          val loneCooperator = loneCooperator
-          val loneDefector = loneDefector
+          val bothCooperate = bothC
+          val bothDefect = bothD
+          val loneCooperator = loneC
+          val loneDefector = loneD
 
           override def toString() = {
             val s1 = "-" * (loneCooperator - lowestScore)
             val s2 = "-" * (bothDefect - loneCooperator)
             val s3 = "-" * (bothCooperate - bothDefect)
             val s4 = "-" * (loneDefector - bothCooperate)
-            s"$s1*$s2*$s3*$s4*$s5"
+            s"$s1*$s2*$s3*$s4*"
           }
         }
 
-        val winner = GiantFightOfDoom.declareAWinner(GiantFightOfDoom.everybodyFight(allCombatants)(() => battle))
+        import GiantFightOfDoom._
+        import Combatants.allCombatants
+        val winner = declareAWinner(everybodyFight(allCombatants)(() => battle))
 
         (battle, winner)
       }
