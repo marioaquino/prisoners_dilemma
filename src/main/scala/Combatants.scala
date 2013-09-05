@@ -1,6 +1,6 @@
 package pd
 
-class Combatants {
+object Combatants {
   val sucker = new Player("Always Cooperates") with AlwaysCooperate
   val cheat = new Player("Always Defects") with AlwaysDefect
   val titForTat =
