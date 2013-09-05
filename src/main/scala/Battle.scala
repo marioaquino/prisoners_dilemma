@@ -37,9 +37,8 @@ class Battle(numberOfRounds: Int) {
      val (aScore, bScore) = res
      a.resetHistory
      b.resetHistory
-      BattleResult((a, aScore), (b, bScore))
+     BattleResult((a, aScore), (b, bScore))
    }
-
 
    private def singleRound(a: Player, b:Player): (Play, Play) = {
      val bMove = b.play
@@ -49,8 +48,6 @@ class Battle(numberOfRounds: Int) {
      b.addToHistory( Round(bMove,aMove))
      (aMove, bMove)
    }
-
-
 }
 
 object GiantFightOfDoom {
@@ -73,6 +70,4 @@ object GiantFightOfDoom {
     val MaxScore = scores.map(_._2).max
     scores.toSeq.collect{ case(p, MaxScore) => p }  // dirty little piece of pattern-matching IMO
   }
-
-
 }
