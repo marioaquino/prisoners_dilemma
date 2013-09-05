@@ -94,8 +94,7 @@ class Holmgang extends FunSpec with ShouldMatchers {
     implicit val battleConstructor = () => new Battle(100) with OneSetOfRules
 
     it("picks the evolutionarily stable strategy") {
-      val combatants = new Combatants()
-      val fightResults = everybodyFight(combatants.allCombatants)
+      val fightResults = everybodyFight(Combatants.allCombatants)
 
       fightResults.foreach {case(player, score) => info("-> " + player + ": " + score)}
 
@@ -103,7 +102,7 @@ class Holmgang extends FunSpec with ShouldMatchers {
 
       winners.foreach { w => info(s"And the winner is !!! $w") }
 
-      winners.head should equal(combatants.titForTwoTats)
+      winners.head should equal(Combatants.titForTwoTats)
     }
   }
 }
