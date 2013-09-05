@@ -58,8 +58,8 @@ object TryVariousRules {
 
       def printAboutWinner: PartialFunction[(Player,Double),Unit] = {
         case (player, pct) =>
-       val p = (pct*100).toInt
-       println(s"$p%: $player")
+          val p = (pct*100).toInt
+          println(s"$p%: $player")
       }
 
       println("====== Overall ======")
