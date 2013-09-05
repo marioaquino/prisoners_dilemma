@@ -35,6 +35,8 @@ class Battle(numberOfRounds: Int) {
    def pit(a: Player, b: Player): BattleResult = {
      val res = Stream.continually(score(singleRound(a,b))).take(numberOfRounds).concatenate
      val (aScore, bScore) = res
+     a.resetHistory
+     b.resetHistory
       BattleResult((a, aScore), (b, bScore))
    }
 
@@ -42,9 +44,9 @@ class Battle(numberOfRounds: Int) {
    private def singleRound(a: Player, b:Player): (Play, Play) = {
      val bMove = b.play(a.name)
      val aMove = a.play(b.name)
-     // ew, a side effect. Will eliminate
-     a.addToHistory(b.name, Round(aMove,bMove))
-     b.addToHistory(a.name, Round(bMove,aMove))
+     // ew, a side effect.
+     a.addToHistory(Round(aMove,bMove))
+     b.addToHistory(Round(bMove,aMove))
      (aMove, bMove)
    }
 

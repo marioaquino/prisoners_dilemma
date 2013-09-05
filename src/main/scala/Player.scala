@@ -80,11 +80,13 @@ class Player(val name: PlayerId) {
 
    self: Strategy =>
 
-   var history: Map[PlayerId, History] = Map()
+   var history: History = Seq()
 
-   def play(opponent: PlayerId): Play = decide(history.getOrElse(opponent, Seq()))
+   def play(opponent: PlayerId): Play = decide(history)
 
-   def addToHistory(opponent: PlayerId, round: Round) = history = history + ((opponent, round +: history.getOrElse(opponent, Seq())))
+   def addToHistory(round: Round) { history = round +: history }
+
+   def resetHistory { history = Seq() }
 
    override def equals(o: Any) = o match {
       case p: Player => p.name == name

@@ -15,7 +15,7 @@ object TryVariousRules {
 
       val lowestScore = -5
       val highestScore = 5
-      val n = 50
+      val n = 200
 
       val wiggleRoom = highestScore - lowestScore
 
@@ -26,10 +26,12 @@ object TryVariousRules {
       yield {
         val loneD = highestScore
         val battle = new Battle(n) with Rules {
-          val bothCooperate = bothC
-          val bothDefect = bothD
           val loneCooperator = loneC
+          val bothDefect = bothD
+          val bothCooperate = bothC
           val loneDefector = loneD
+
+          def hasDifferentScoresForEachScenario = loneC < bothD && bothD < bothC && bothC < loneD
 
           override def toString() = {
             val s1 = "-" * (loneCooperator - lowestScore)
@@ -47,14 +49,15 @@ object TryVariousRules {
         (battle, winner)
       }
 
-
       results.foreach { case(battle, winner) => println(s"$battle ${printWinner(winner)}")}
+
 
    }
 
+
    private def printWinner(winners: Seq[Player]):String = winners match {
      case Seq(one) => one.toString
-     case Seq(one, two) => s"$one & $two tied"
+     case Seq(one, two) => s"tie: $one & $two"
      case longer => s"${longer.size}-way tie"
    }
 
